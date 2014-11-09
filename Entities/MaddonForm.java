@@ -1,10 +1,12 @@
 package ${package};
 
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
+import org.vaadin.maddon.button.PrimaryButton;
 import org.vaadin.maddon.fields.MTextField;
 import org.vaadin.maddon.fields.TypedSelect;
 import org.vaadin.maddon.form.AbstractForm;
@@ -29,7 +31,7 @@ public class ${object}MaddonForm extends AbstractForm<${object}> {
     <#elseif field.asType() == "java.util.Date">
         DateField ${field.simpleName} = new DateField("${field.simpleName}");
     <#else>
-        // Select to another entity, options must be populated!!
+        //Fixme: Select to another entity, options must be populated!
         TypedSelect<${field.asType()}> ${field.simpleName} = new TypedSelect().withCaption("${field.simpleName}");
     </#if>
   </#list>
@@ -44,6 +46,20 @@ public class ${object}MaddonForm extends AbstractForm<${object}> {
                 ),
                 getToolbar()
         );
+    }
+
+    @Override
+    protected Button createCancelButton() {
+        return new Button("Abbrechen", (Button.ClickEvent event) -> {
+            reset(event);
+        });
+    }
+
+    @Override
+    protected Button createSaveButton() {
+        return new PrimaryButton("Speichern", (Button.ClickEvent event) -> {
+            save(event);
+        });
     }
     
 }

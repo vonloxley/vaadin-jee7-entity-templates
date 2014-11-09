@@ -4,6 +4,7 @@ import ${package}.ejb.${object}Facade;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
@@ -27,7 +28,7 @@ public class ${object}TableViewWithPopup extends MVerticalLayout implements View
 
     @PostConstruct
     public void initComponent() {
-        popup = new Window("Edit MicroMarket", form);
+        popup = new Window("${object} editieren", form);
         popup.setModal(true);
 
         form.setResetHandler(this::reset);
@@ -39,16 +40,17 @@ public class ${object}TableViewWithPopup extends MVerticalLayout implements View
                 getUI().addWindow(popup);
             }
         });
+        table.setWidth("100%");
         listEntities();
 
-        Button addButton = new Button("Add");
+        Button addButton = new Button(FontAwesome.PLUS);
         addButton.addClickListener(e -> {
             form.setEntity(new ${object}());
             getUI().addWindow(popup);
         });
 
         addComponents(
-                new Header("${object} listing"),
+                new Header("${object}-Liste"),
                 table, 
                 addButton
         );
@@ -65,7 +67,7 @@ public class ${object}TableViewWithPopup extends MVerticalLayout implements View
             cf.edit(entity);
         }
         listEntities();
-        Notification.show("Saved!");
+        Notification.show("Gespeichert!");
     }
 
     public void reset(${object} entity) {
