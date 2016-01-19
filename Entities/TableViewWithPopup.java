@@ -10,9 +10,9 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import org.vaadin.maddon.fields.MTable;
-import org.vaadin.maddon.label.Header;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.fields.MTable;
+import org.vaadin.viritin.label.Header;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 @CDIView("${object?lower_case}")
 public class ${object}TableViewWithPopup extends MVerticalLayout implements View {

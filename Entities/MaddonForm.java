@@ -6,11 +6,11 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
-import org.vaadin.maddon.button.PrimaryButton;
-import org.vaadin.maddon.fields.MTextField;
-import org.vaadin.maddon.fields.TypedSelect;
-import org.vaadin.maddon.form.AbstractForm;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.button.PrimaryButton;
+import org.vaadin.viritin.fields.MTextField;
+import org.vaadin.viritin.fields.TypedSelect;
+import org.vaadin.viritin.form.AbstractForm;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 public class ${object}MaddonForm extends AbstractForm<${object}> {
     
@@ -31,7 +31,10 @@ public class ${object}MaddonForm extends AbstractForm<${object}> {
     <#elseif field.asType() == "java.util.Date">
         DateField ${field.simpleName} = new DateField("${field.simpleName}");
     <#else>
-        //Fixme: Select to another entity, options must be populated!
+        /*Fixme: Select to another entity, options must be populated!
+         * @Inject ${field.simpleName}Facade ${field.simpleName}Beans
+         * ${field.simpleName}.setBeans(${field.simpleName}Beans.findAll());
+         */
         TypedSelect<${field.asType()}> ${field.simpleName} = new TypedSelect().withCaption("${field.simpleName}");
     </#if>
   </#list>
