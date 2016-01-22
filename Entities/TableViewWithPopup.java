@@ -18,6 +18,8 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 @CDIView("${object?lower_case}")
 public class ${object}TableViewWithPopup extends MVerticalLayout implements View, Listener {
 
+    private static final long serialVersionUID = 1L;
+
     @Inject
     ${object}Facade cf;
     @Inject
