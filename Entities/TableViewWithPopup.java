@@ -6,6 +6,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component.Listener;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
 import javax.annotation.PostConstruct;
@@ -15,7 +16,7 @@ import org.vaadin.viritin.label.Header;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 @CDIView("${object?lower_case}")
-public class ${object}TableViewWithPopup extends MVerticalLayout implements View {
+public class ${object}TableViewWithPopup extends MVerticalLayout implements View, Listener {
 
     @Inject
     ${object}Facade cf;
@@ -33,6 +34,7 @@ public class ${object}TableViewWithPopup extends MVerticalLayout implements View
 
         form.setResetHandler(this::reset);
         form.setSavedHandler(this::save);
+        popup.addListener(this);
 
         table.addMValueChangeListener(e -> {
             if (e.getValue() != null) {
@@ -66,18 +68,22 @@ public class ${object}TableViewWithPopup extends MVerticalLayout implements View
         } else {
             cf.edit(entity);
         }
-        listEntities();
+        popup.close();
         Notification.show("Gespeichert!");
     }
 
     public void reset(${object} entity) {
-        // just hide the form
         popup.close();
-        listEntities();
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
     }
 
+    @Override
+    public void componentEvent(Event event) {
+        if (event.getClass() == com.vaadin.ui.Window.CloseEvent.class) {
+                listEntities();
+        }
+    }
 }
