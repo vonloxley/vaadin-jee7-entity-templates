@@ -38,9 +38,10 @@ public class ${object}TableViewWithPopup extends MVerticalLayout implements View
         form.setSavedHandler(this::save);
         popup.addListener(this);
 
-        table.addMValueChangeListener(e -> {
-            if (e.getValue() != null) {
-                form.setEntity(e.getValue());
+        table.addRowClickListener(e -> {
+            ${object} entity = e.getEntity();
+            if (entity != null) {
+                form.setEntity(entity);
                 getUI().addWindow(popup);
             }
         });
