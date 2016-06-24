@@ -1,6 +1,6 @@
 package ${package};
 
-import ${package}.ejb.${object}Facade;
+import ${package}.controller.${object}Facade;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
