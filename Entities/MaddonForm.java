@@ -21,7 +21,7 @@ public class ${object}MaddonForm extends AbstractForm<${object}> {
     
   <#list fieldElems as field>
     <#if field.asType() = "java.lang.Boolean" || field.asType().kind = "BOOLEAN">
-        CheckBox ${field.simpleName} = new CheckBox("${field.simpleName}");
+    CheckBox ${field.simpleName} = new CheckBox("${field.simpleName}");
     <#elseif
         field.asType().kind.primitive ||
         field.asType() = "java.lang.String" ||
@@ -50,11 +50,6 @@ public class ${object}MaddonForm extends AbstractForm<${object}> {
     @Override
     protected Component createContent() {
 
-        setCancelCaption("Abbrechen");
-        setSaveCaption("Speichern");
-        setModalWindowTitle("${object} bearbeiten");
-        setDeleteCaption("Löschen");
-
         return new MVerticalLayout(
                 new FormLayout(
                   <#list fields as field>
@@ -63,6 +58,13 @@ public class ${object}MaddonForm extends AbstractForm<${object}> {
                 ),
                 getToolbar()
         );
+    }
+
+    public ${object}MaddonForm(){
+        setCancelCaption("Abbrechen");
+        setSaveCaption("Speichern");
+        setModalWindowTitle("${object} bearbeiten");
+        setDeleteCaption("Löschen");
     }
 }
 
