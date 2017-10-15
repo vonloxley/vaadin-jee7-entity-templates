@@ -1,12 +1,13 @@
 package ${package};
 
+import com.vaadin.data.Binder;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.TypedSelect;
 import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -33,7 +34,7 @@ public class ${object}MaddonForm extends AbstractForm<${object}> {
         field.asType() = "java.lang.Float"
         >
     TextField ${field.simpleName} = new MTextField("${field.simpleName}");
-    <#elseif field.asType() == "java.util.Date">
+    <#elseif field.asType() == "java.util.Date" || field.asType() == "java.time.LocalDate">
     DateField ${field.simpleName} = new DateField("${field.simpleName}");
     <#else>
     /* Fixme: 
@@ -43,7 +44,7 @@ public class ${object}MaddonForm extends AbstractForm<${object}> {
      * @Inject ${field.simpleName}Facade ${field.simpleName}Beans;
      * ${field.simpleName}.setBeans(${field.simpleName}Beans.findAll());
      */
-    TypedSelect<${field.asType()}> ${field.simpleName} = new TypedSelect<>(${field.asType()}.class).withCaption("${field.simpleName}");
+    ComboBox<${field.asType()}> ${field.simpleName} = new ComboBox<>("${field.simpleName}");
     </#if>
   </#list>
 
@@ -53,14 +54,37 @@ public class ${object}MaddonForm extends AbstractForm<${object}> {
         return new MVerticalLayout(
                 new FormLayout(
                   <#list fields as field>
-                    ${field} <#if field_has_next>,</#if>
+                    ${field}<#if field_has_next>,</#if>
                   </#list>
                 ),
                 getToolbar()
         );
     }
 
+    @Override
+    protected void bind() {
+        Binder<${object}> binder = getBinder();
+
+        <#list fieldElems as field>
+        <#if
+            field.asType() = "java.lang.Double" ||
+            field.asType() = "java.lang.Integer" ||
+            field.asType() = "java.lang.Long" ||
+            field.asType() = "java.lang.Float"
+        >
+        binder
+                .forField(${field.simpleName})
+                .withConverter(${field.asType()}::valueOf, String::valueOf)
+                .bind("${field.simpleName}");
+        </#if>
+        </#list>
+
+        binder.bindInstanceFields(this);
+    }
+
     public ${object}MaddonForm(){
+        super(${object}.class);
+
         setCancelCaption("Abbrechen");
         setSaveCaption("Speichern");
         setModalWindowTitle("${object} bearbeiten");

@@ -2,16 +2,16 @@ package ${package};
 
 import ${package}.controller.${object}Facade;
 import com.vaadin.cdi.CDIView;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component.Listener;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import org.vaadin.viritin.fields.MTable;
 import org.vaadin.viritin.label.Header;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -25,7 +25,7 @@ public class ${object}TableViewWithPopup extends MVerticalLayout implements View
     @Inject
     ${object}MaddonForm form;
 
-    MTable<${object}> table = new MTable<>(${object}.class);
+    Grid<${object}> table = new Grid<>(${object}.class);
 
     private Window popup;
 
@@ -38,8 +38,8 @@ public class ${object}TableViewWithPopup extends MVerticalLayout implements View
         form.setSavedHandler(this::save);
         popup.addListener(this);
 
-        table.addRowClickListener(e -> {
-            ${object} entity = e.getEntity();
+        table.addItemClickListener(e -> {
+            ${object} entity = e.getItem();
             if (entity != null) {
                 form.setEntity(entity);
                 getUI().addWindow(popup);
@@ -48,7 +48,7 @@ public class ${object}TableViewWithPopup extends MVerticalLayout implements View
         table.setWidth("100%");
         listEntities();
 
-        Button addButton = new Button(FontAwesome.PLUS);
+        Button addButton = new Button(VaadinIcons.PLUS);
         addButton.addClickListener(e -> {
             form.setEntity(new ${object}());
             getUI().addWindow(popup);
@@ -62,7 +62,7 @@ public class ${object}TableViewWithPopup extends MVerticalLayout implements View
     }
 
     private void listEntities() {
-        table.setBeans(cf.findAll());
+        table.setItems(cf.findAll());
     }
 
     public void save(${object} entity) {
